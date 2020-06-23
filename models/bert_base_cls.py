@@ -42,7 +42,7 @@ class BERTbase(nn.Module):
     uttrance_logits = torch.stack([bert_outputs[:,i*self.response_span,:] for i in range(10)], 1) # bs, bert_output_size
     respones_logits = bert_outputs[:, self.hparams.max_dialog_len,:]
     
-    respones_logits = respones_logits(-1, 1, self.hparams.bert_hidden_dim)
+    respones_logits = respones_logits.view(-1, 1, self.hparams.bert_hidden_dim)
     #uttrance_logits = uttrance_logits.view(-1,self.response_span,self.hparams.bert_hidden_dim)
     #uttrance_logits = uttrance_logits.permute(1,0,2)
     #_, uttrance_logits =  self.gru_utt(uttrance_logits)
